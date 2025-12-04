@@ -26,4 +26,4 @@ const startServer = async ()=>{
     console.log("server is running")
 })
 }
- startServer()
+startServer()
