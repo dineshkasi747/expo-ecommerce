@@ -9,3 +9,4 @@ router.get("/", protectRoute, getAllProducts);
 router.get("/:id", protectRoute, getProductById);
 
 export default router;
+

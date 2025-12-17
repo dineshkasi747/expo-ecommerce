@@ -165,7 +165,6 @@ const seedDatabase = async () => {
     console.log(`Total Products: ${products.length}`);
     console.log(`Categories: ${categories.join(", ")}`);
 
-    // Close connection
     await mongoose.connection.close();
     console.log("\n✅ Database seeding completed and connection closed");
     process.exit(0);
