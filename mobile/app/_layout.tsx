@@ -6,25 +6,13 @@ import { tokenCache } from '@clerk/clerk-expo/token-cache'
 import * as Sentry from '@sentry/react-native';
 import {StripeProvider} from '@stripe/stripe-react-native'
 
-
-
 Sentry.init({
   dsn: 'https://3a4b4be1cbf696badb3181f4bead5fd1@o4510228015480832.ingest.us.sentry.io/4510504507998208',
-
-  // Adds more context data to events (IP address, cookies, user, etc.)
-  // For more information, visit: https://docs.sentry.io/platforms/react-native/data-management/data-collected/
   sendDefaultPii: true,
-
-  // Enable Logs
   enableLogs: true,
-
-  // Configure Session Replay
   replaysSessionSampleRate: 1.0,
   replaysOnErrorSampleRate: 1,
   integrations: [Sentry.mobileReplayIntegration()],
-
-  // uncomment the line below to enable Spotlight (https://spotlightjs.com)
-  // spotlight: __DEV__,
 });
 
 const queryClient = new QueryClient({
@@ -45,7 +33,6 @@ const queryClient = new QueryClient({
   }),
   mutationCache: new MutationCache({
     onError: (error: any) => {
-      // global error handler for all mutations
       Sentry.captureException(error, {
         tags: { type: "react-query-mutation-error" },
         extra: {
@@ -57,18 +44,20 @@ const queryClient = new QueryClient({
   }),
 });
 
+// Add this to get the publishable key
+
 
 export default Sentry.wrap(function RootLayout() {
-
   return (
-    <ClerkProvider tokenCache={tokenCache}>
+    <ClerkProvider 
+      publishableKey={"pk_test_dHJ1ZS10ZXJyYXBpbi05OS5jbGVyay5hY2NvdW50cy5kZXYk"}  // ← Add this line
+      tokenCache={tokenCache}
+    >
       <QueryClientProvider client={queryClient}>
-        <StripeProvider publishableKey={process.env.EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY!}>
-        <Stack screenOptions={{headerShown:false}}/>
+        <StripeProvider publishableKey={"pk_test_51SeU5NJKw4HPfVtG3YjIM3pCbjHC5uauPuLmyK1tLdp90GFLTmbX9NMJn4YR51sw6pHmM1QD9ykTotm1bf2NvgSi00EovPTACX"}>
+          <Stack screenOptions={{headerShown:false}}/>
         </StripeProvider>
       </QueryClientProvider>
     </ClerkProvider>
   );
-
-  
 });
