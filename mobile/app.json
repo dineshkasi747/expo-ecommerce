@@ -19,7 +19,8 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.chandu9966.mobile"
     },
     "web": {
       "output": "static",
@@ -40,17 +41,23 @@
         }
       ],
       [
-        "@sentry/react-native/expo",
+        "expo-build-properties",
         {
-          "url": "https://sentry.io/",
-          "project": "expo-ecommerce",
-          "organization": "gvp-vg"
+          "android": {
+            "newArchEnabled": true
+          }
         }
       ]
     ],
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "a3cc27d6-4d87-4537-b40e-5566db65c0c6"
+      }
     }
   }
 }
