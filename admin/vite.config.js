@@ -13,7 +13,7 @@ dotenv.config({
 export default defineConfig({
   plugins: [react(), tailwindcss()],
 
-  // 👇 Expose env vars to import.meta.env
+
   define: {
     "import.meta.env.VITE_CLERK_PUBLISHABLE_KEY": JSON.stringify(
       process.env.VITE_CLERK_PUBLISHABLE_KEY
