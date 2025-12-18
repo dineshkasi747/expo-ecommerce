@@ -20,7 +20,7 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.dineshKasi123.mobile"
+      "package": "com.dineshkasi123.mobile"
     },
     "web": {
       "output": "static",
