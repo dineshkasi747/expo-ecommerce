@@ -2,10 +2,9 @@ import { useAuth } from "@clerk/clerk-expo";
 import axios from "axios"
 import { useEffect } from "react";
 
-const API_URL = "http://192.168.0.147:3000/api";
+// const API_URL = "http://192.168.7.65:3000/api";
 
-
-// const API_URL = "https://expo-ecommerce-7qv7.onrender.com/api"
+const API_URL = "https://expo-ecommerce-5.onrender.com/api"
 
 const api = axios.create({
     baseURL:API_URL,

@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "mobile",
+    "name": "Kasi Store",
     "slug": "mobile",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -19,7 +19,8 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.dineshkasi.mobile"
     },
     "web": {
       "output": "static",
@@ -40,17 +41,24 @@
         }
       ],
       [
-        "@sentry/react-native/expo",
+        "expo-build-properties",
         {
-          "url": "https://sentry.io/",
-          "project": "expo-ecommerce",
-          "organization": "gvp-vg"
+          "android": {
+            "newArchEnabled": true
+          }
         }
       ]
     ],
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "93b13e15-37f0-4c19-9387-473856e540d7"
+      }
     }
   }
 }
+
