@@ -82,6 +82,7 @@ const ProfileScreen = () => {
           <TouchableOpacity
             className="flex-row items-center justify-between py-2"
             activeOpacity={0.7}
+            onPress={() => router.push("/notifications")}
           >
             <View className="flex-row items-center">
               <Ionicons name="notifications-outline" size={22} color="#FFFFFF" />

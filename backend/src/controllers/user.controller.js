@@ -1,4 +1,5 @@
 import { User } from "../models/user.model.js";
+import { Notification } from "../models/notification.model.js";
 
 export async function addAddress(req, res) {
   try {
@@ -152,4 +153,36 @@ export async function getWishlist(req, res) {
     console.error("Error in getWishlist controller:", error);
     res.status(500).json({ error: "Internal server error" });
   }
+}
+
+export async function savePushToken(req, res) {
+  try {
+    const { expoPushToken } = req.body;
+
+    if (!expoPushToken) {
+      return res.status(400).json({ error: "Push token is required" });
+    }
+
+    const user = req.user;
+
+    user.expoPushToken = expoPushToken;
+    await user.save();
+
+    res.status(200).json({ message: "Push token saved successfully" });
+  } catch (error) {
+    console.error("Error saving push token:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+}
+
+export async function getNotifications(req, res) {
+  const notifications = await Notification.find({ user: req.user._id })
+    .sort({ createdAt: -1 });
+
+  res.json({ notifications });
+}
+
+export async function markNotificationRead(req, res) {
+  await Notification.findByIdAndUpdate(req.params.id, { isRead: true });
+  res.json({ success: true });
 }
