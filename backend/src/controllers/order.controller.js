@@ -1,6 +1,9 @@
 import { Order } from "../models/order.model.js";
 import { Product } from "../models/product.model.js";
 import { Review } from "../models/review.model.js";
+import { sendPushNotification } from "../utils/sendPushNotification.js";
+import { Notification } from "../models/notification.model.js";
+
 
 export async function createOrder(req, res) {
   try {
@@ -39,6 +42,21 @@ export async function createOrder(req, res) {
         $inc: { stock: -item.quantity },
       });
     }
+
+    await sendPushNotification(
+      user.expoPushToken,
+      "Order Placed ✅",
+      "Your order has been placed successfully",
+      { orderId: order._id }
+    );
+
+    await Notification.create({
+      user: user._id,
+      title: "Order Placed ✅",
+      body: "Your order has been placed successfully",
+      data: { orderId: order._id },
+    });
+
 
     res.status(201).json({ message: "Order created successfully", order });
   } catch (error) {

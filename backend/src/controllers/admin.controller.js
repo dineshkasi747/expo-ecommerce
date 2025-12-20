@@ -2,6 +2,7 @@ import cloudinary from "../config/cloudinary.js";
 import { Product } from "../models/product.model.js";
 import { Order } from "../models/order.model.js";
 import { User } from "../models/user.model.js";
+import { sendPushNotification } from "../utils/sendPushNotification.js";
 
 export async function createProduct(req, res) {
   try {
@@ -135,6 +136,27 @@ export async function updateOrderStatus(req, res) {
     }
 
     await order.save();
+
+        // 🔔 SEND NOTIFICATION TO USER
+    let message = "";
+
+    if (status === "shipped") {
+      message = "Your order has been shipped 🚚";
+    } else if (status === "delivered") {
+      message = "Your order has been delivered 🎉";
+    }
+
+    if (order.user?.expoPushToken && message) {
+      await sendPushNotification(
+        order.user.expoPushToken,
+        "Order Update",
+        message,
+        {
+          orderId: order._id,
+          status,
+        }
+      );
+    }
 
     res.status(200).json({ message: "Order status updated successfully", order });
   } catch (error) {
