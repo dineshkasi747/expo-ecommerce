@@ -1,6 +1,8 @@
 import ProductsGrid from "@/components/ProductsGrid";
 import SafeScreen from "@/components/SafeScreen";
 import useProducts from "@/hooks/useProducts";
+import PriceFilterModal from "@/components/PriceFilterModal";
+
 
 import { Ionicons } from "@expo/vector-icons";
 import { useMemo, useState } from "react";
@@ -21,6 +23,10 @@ const CATEGORIES = [
 const ShopScreen = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [minPrice, setMinPrice] = useState<number | null>(null);
+  const [maxPrice, setMaxPrice] = useState<number | null>(null);
+
 
   const { data: products, isLoading, isError } = useProducts();
 
@@ -41,8 +47,17 @@ const ShopScreen = () => {
       );
     }
 
+    if (minPrice !== null) {
+    filtered = filtered.filter((product) => product.price >= minPrice);
+    }
+
+    if (maxPrice !== null) {
+    filtered = filtered.filter((product) => product.price <= maxPrice);
+    }
+
+
     return filtered;
-  }, [products, selectedCategory, searchQuery]);
+  }, [products, selectedCategory, searchQuery,minPrice,maxPrice]);
 
   return (
     <SafeScreen>
@@ -58,9 +73,12 @@ const ShopScreen = () => {
               <Text className="text-text-primary text-3xl font-bold tracking-tight">Shop</Text>
               <Text className="text-text-secondary text-sm mt-1">Browse all products</Text>
             </View>
-
-            <TouchableOpacity className="bg-surface/50 p-3 rounded-full" activeOpacity={0.7}>
-              <Ionicons name="options-outline" size={22} color={"#fff"} />
+            <TouchableOpacity
+              className="bg-surface/50 p-3 rounded-full"
+              activeOpacity={0.7}
+              onPress={() => setIsFilterOpen(true)}
+            >
+              <Ionicons name="options-outline" size={22} color="#fff" />
             </TouchableOpacity>
           </View>
 
@@ -119,6 +137,16 @@ const ShopScreen = () => {
           <ProductsGrid products={filteredProducts} isLoading={isLoading} isError={isError} />
         </View>
       </ScrollView>
+
+      <PriceFilterModal
+        visible={isFilterOpen}
+        onClose={() => setIsFilterOpen(false)}
+        minPrice={minPrice}
+        maxPrice={maxPrice}
+        setMinPrice={setMinPrice}
+        setMaxPrice={setMaxPrice}
+      />
+
     </SafeScreen>
   );
 };
